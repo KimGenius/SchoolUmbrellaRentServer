@@ -29,6 +29,9 @@ var router = function (app, pool) {
             con.release();
         })
     })
+    app.post('/addStudentList', function (req, res) {
+        res.send("하..");
+    })
     app.get('/', function (req, res) {
         res.render('index.html')
         console.log("sadf")
