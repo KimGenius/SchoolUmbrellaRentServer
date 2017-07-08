@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="20e6e902-84fe-4f59-a9ad-8f99dd905352" name="SchoolUmbrellaRent" url="http://rinc.iptime.org">
+        <fileTransfer host="rinc.iptime.org" port="24" rootFolder="/home/ubuntu/Desktop/SchoolUmbrellaRent" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="24" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
