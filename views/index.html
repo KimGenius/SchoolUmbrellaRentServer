@@ -41,7 +41,7 @@
                     ["AC", "AD", "AE"] // 8 Class
                 ];
                 var target = {};
-                var stu_result = {};
+                var stu_result = [];
                 for (var sheetNum = 1; sheetNum <= 3; sheetNum++) {
                     for (var i = 0; i < coulmns.length; i++) {
                         for (var j = 0; j < coulmns[i].length; j++) {
@@ -61,10 +61,10 @@
                             var bool = typeof(workbook.Sheets[sheetNum][target.num + k]) !== "undefined";
                             if (bool) {
                                 console.log("번호 : " + workbook.Sheets[sheetNum][target.num + k].v + " 이름 : " + workbook.Sheets[sheetNum][target.name + k].v + " 학번 : " + workbook.Sheets[sheetNum][target.bun + k].v);
-                                stu_result.name = workbook.Sheets[sheetNum][target.name + k].v;
-                                stu_result.student_num = workbook.Sheets[sheetNum][target.bun + k].v;
+                                stu_result[0] = workbook.Sheets[sheetNum][target.name + k].v;
+                                stu_result[1] = workbook.Sheets[sheetNum][target.bun + k].v;
                                 result.push(stu_result);
-                                stu_result = {};
+                                stu_result = [];
                             }
                         }
                     }
@@ -80,10 +80,12 @@
                 $.ajax({
                     url: '/addStudentList',
                     type: 'post',
-                    data: result,
+                    data: {'asdf': JSON.stringify(result)},
+                    dataType: 'json',
                     success: function (data) {
-                        console.log("????");
+//                        console.log("????");
                         console.log(data);
+                        result = [];
                     }
                 });
             };
