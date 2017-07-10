@@ -28,8 +28,6 @@
                 workbook = XLSX.read(data, {type: 'binary'});
 
                 /* DO SOMETHING WITH workbook HERE */
-                console.log(workbook);
-                console.log(workbook.Sheets[1]);
                 var coulmns = [
                     ["A", "B", "C"], // 1 Class
                     ["E", "F", "G"], // 2 Class
@@ -60,7 +58,6 @@
                         for (var k = 1; k <= 27; k++) {
                             var bool = typeof(workbook.Sheets[sheetNum][target.num + k]) !== "undefined";
                             if (bool) {
-                                console.log("번호 : " + workbook.Sheets[sheetNum][target.num + k].v + " 이름 : " + workbook.Sheets[sheetNum][target.name + k].v + " 학번 : " + workbook.Sheets[sheetNum][target.bun + k].v);
                                 stu_result[0] = workbook.Sheets[sheetNum][target.name + k].v;
                                 stu_result[1] = workbook.Sheets[sheetNum][target.bun + k].v;
                                 result.push(stu_result);
@@ -69,7 +66,6 @@
                         }
                     }
                 }
-                console.log(result);
                 $.each(workbook.Strings, function (index, value) {
                     if (((index + 1) % 26) === 0) {
                         $('.data').append(value.t + "<br/>");
@@ -83,9 +79,12 @@
                     data: {'asdf': JSON.stringify(result)},
                     dataType: 'json',
                     success: function (data) {
-//                        console.log("????");
-                        console.log(data);
                         result = [];
+                        if (data.status === "true") {
+                            alert("성공적으로 명단이 등록되었습니다!");
+                        } else {
+                            alert(data.status);
+                        }
                     }
                 });
             };

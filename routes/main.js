@@ -1,14 +1,11 @@
 'use strict';
 var router;
 router = function (app, pool) {
-    console.log(router);
     app.post('/user/login', function (req, res) {
         let data = req.body;
-        console.log(data);
         pool.getConnection(function (e, con) {
             if (!e) {
                 con.query('select * from `user` WHERE `id` = ? AND `pw` = ?;', [data.id, data.pw], function (e, rs) {
-                    console.log(rs);
                     if (!e && rs.length) {
                         res.json({
                             'status': "true",
@@ -39,14 +36,11 @@ router = function (app, pool) {
         data.split(',').forEach(function (value, index) {
             if (index % 2 === 0) {
                 name = value.substring(2, value.length - 1);
-                console.log(name);
             } else {
                 bun = value.substring(0, value.length - 1);
                 query_str += "('" + name + "','" + bun + "',0),";
-                console.log(bun);
             }
         });
-        console.log(query_str.substring(0, query_str.length - 1));
 
         pool.getConnection(function (e, con) {
             if (!e) {
