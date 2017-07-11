@@ -78,5 +78,8 @@ router = function (app, pool) {
     app.get('/', function (req, res) {
         res.render('index.html');
     })
+    app.post('/getStudentList',function() {
+
+    })
 };
 module.exports = router;
