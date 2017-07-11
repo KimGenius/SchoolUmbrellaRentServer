@@ -77,9 +77,31 @@ router = function (app, pool) {
     });
     app.get('/', function (req, res) {
         res.render('index.html');
-    })
-    app.post('/getStudentList',function() {
-
-    })
+    });
+    app.post('/getStudentList', function (req, res) {
+        pool.getConnection(function (e, con) {
+            if (e) {
+                //connection error
+                res.json({
+                    'status': 'connection error'
+                });
+            } else {
+                con.query("SELECT * FROM `students`", [], function (e, rs) {
+                    if (e) {
+                        //select error
+                        res.json({
+                            'status': 'select error'
+                        });
+                    } else {
+                        //success
+                        res.json({
+                            'status': 'success',
+                            'data': rs
+                        })
+                    }
+                })
+            }
+        })
+    });
 };
 module.exports = router;

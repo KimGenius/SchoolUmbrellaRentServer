@@ -15,6 +15,19 @@
 <p class="data"></p>
 <script>
     var result = [];
+
+    $.ajax({
+        url: '/getStudentList',
+        type: 'post',
+        dataType: 'json',
+        success: function (data) {
+            if (data.status === "success") {
+                console.log(data);
+            } else {
+                alert(data.status);
+            }
+        }
+    })
     function handleFile(e) {
         var files = e.target.files;
         var i, f;
