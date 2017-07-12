@@ -100,6 +100,7 @@ router = function (app, pool) {
                         })
                     }
                 })
+                con.release();
             }
         })
     });
