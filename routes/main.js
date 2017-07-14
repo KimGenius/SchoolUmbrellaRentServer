@@ -185,7 +185,7 @@ router = function (app, pool) {
                         });
                     } else {
                         //success
-                        con.query("UPDATE `students` SET `umbrella` = ? WHERE `students`.`idx` = ?;", [(parseInt(req.body.umbrella) + 1), req.body.idx], function (e, rs) {
+                        con.query("UPDATE `students` SET `umbrella` = ?, `date` = ? WHERE `students`.`idx` = ?;", [(parseInt(req.body.umbrella) + 1), req.body.date, req.body.idx], function (e, rs) {
                             if (e) {
                                 //update error
                                 res.json({
@@ -219,7 +219,7 @@ router = function (app, pool) {
                             'status': 'TRUNCATE ERROR'
                         })
                     } else {
-                        con.query("UPDATE `students` SET `umbrella` = 0", [], function (e, rs) {
+                        con.query("UPDATE `students` SET `umbrella` = 0, `date` = ''", [], function (e, rs) {
                             if (e) {
                                 //UPDATE ERROR
                                 res.json({
