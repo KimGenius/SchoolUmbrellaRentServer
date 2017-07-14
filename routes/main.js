@@ -104,5 +104,39 @@ router = function (app, pool) {
             }
         })
     });
+    app.post('/getStudent', function (req, res) {
+        console.log(req.body);
+        pool.getConnection(function (e, con) {
+            if (e) {
+                //connection error
+                res.json({
+                    'status': 'connection error'
+                });
+            } else {
+                con.query("SELECT * FROM `students` WHERE `num` = ?", [req.body.num], function (e, rs) {
+                    if (e) {
+                        //select error
+                        res.json({
+                            'status': 'select error'
+                        });
+                    } else if (rs.length) {
+                        //success
+                        res.json({
+                            'status': 'success',
+                            'name': rs[0].name,
+                            'idx': rs[0].idx,
+                            'umbrella': rs[0].umbrella
+                        })
+                    } else {
+                        //select empty
+                        res.json({
+                            'status': 'empty'
+                        })
+                    }
+                })
+                con.release();
+            }
+        })
+    });
 };
 module.exports = router;
