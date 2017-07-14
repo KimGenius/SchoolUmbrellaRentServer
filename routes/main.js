@@ -169,8 +169,8 @@ router = function (app, pool) {
                         })
                     }
                 });
-                con.release();
             }
+            con.release();
         })
     });
     app.get('/rentClear', function (req, res) {
@@ -188,13 +188,23 @@ router = function (app, pool) {
                             'status': 'TRUNCATE ERROR'
                         })
                     } else {
-                        res.json({
-                            'status': 'success',
-                            'message': "성공적으로 대여목록이 초기화되었습니다!"
-                        })
+                        con.query("UPDATE `students` SET `umbrella` = 0", [], function (e, rs) {
+                            if (e) {
+                                //UPDATE ERROR
+                                res.json({
+                                    'status': 'UPDATE ERROR'
+                                })
+                            } else {
+                                res.json({
+                                    'status': 'success',
+                                    'message': "성공적으로 대여목록이 초기화되었습니다!"
+                                })
+                            }
+                        });
                     }
                 })
             }
+            con.release();
         })
     })
 };

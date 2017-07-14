@@ -15,7 +15,7 @@
 <p class="data"></p>
 <button class="rentClear">대여목록 초기화</button>
 <script>
-    var result = [];
+    let result = [];
     $('.rentClear').click(function () {
         $.ajax({
             url: '/rentClear',
@@ -42,19 +42,18 @@
         }
     })
     function handleFile(e) {
-        var files = e.target.files;
-        var i, f;
+        const files = e.target.files;
+        let i, f;
         for (i = 0; i != files.length; ++i) {
             f = files[i];
-            var reader = new FileReader();
-            var name = f.name;
+            const reader = new FileReader();
+            const name = f.name;
             reader.onload = function (e) {
-                var data = e.target.result;
-                var workbook;
-                workbook = XLSX.read(data, {type: 'binary'});
+                const data = e.target.result;
+                const workbook = XLSX.read(data, {type: 'binary'});
 
                 /* DO SOMETHING WITH workbook HERE */
-                var coulmns = [
+                const coulmns = [
                     ["A", "B", "C"], // 1 Class
                     ["E", "F", "G"], // 2 Class
                     ["I", "J", "K"], // 3 Class
@@ -64,11 +63,11 @@
                     ["Y", "Z", "AA"], // 7 Class
                     ["AC", "AD", "AE"] // 8 Class
                 ];
-                var target = {};
-                var stu_result = [];
-                for (var sheetNum = 1; sheetNum <= 3; sheetNum++) {
-                    for (var i = 0; i < coulmns.length; i++) {
-                        for (var j = 0; j < coulmns[i].length; j++) {
+                const target = {};
+                let stu_result = [];
+                for (let sheetNum = 1; sheetNum <= 3; sheetNum++) {
+                    for (let i = 0; i < coulmns.length; i++) {
+                        for (let j = 0; j < coulmns[i].length; j++) {
                             switch (j) {
                                 case 0:
                                     target.num = coulmns[i][j];
@@ -81,8 +80,8 @@
                                     break;
                             }
                         }
-                        for (var k = 1; k <= 27; k++) {
-                            var bool = typeof(workbook.Sheets[sheetNum][target.num + k]) !== "undefined";
+                        for (let k = 1; k <= 27; k++) {
+                            const bool = typeof(workbook.Sheets[sheetNum][target.num + k]) !== "undefined";
                             if (bool) {
                                 stu_result[0] = workbook.Sheets[sheetNum][target.name + k].v;
                                 stu_result[1] = workbook.Sheets[sheetNum][target.bun + k].v;
