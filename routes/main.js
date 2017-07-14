@@ -86,7 +86,7 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query("SELECT * FROM `students`", [], function (e, rs) {
+                con.query("SELECT * FROM `students` ORDER BY `umbrella` desc, `num` asc;", [], function (e, rs) {
                     if (e) {
                         //select error
                         res.json({
@@ -238,5 +238,39 @@ router = function (app, pool) {
             con.release();
         })
     })
+    app.post('/sortStudents', function (req, res) {
+        pool.getConnection(function (e, con) {
+            if (e) {
+                //connection error
+                res.json({
+                    'status': 'connection error'
+                });
+            } else {
+                let type = req.body.type;
+                let sql = "";
+                if (type === "num") {
+                    sql = "SELECT * FROM `students` ORDER BY `num` " + req.body.gradeSc + ", `umbrella` " + req.body.rentSc + ";"
+                } else if (type === "umbrella") {
+                    sql = "SELECT * FROM `students` ORDER BY `umbrella` " + req.body.rentSc + ", `num` " + req.body.gradeSc + ";"
+                }
+                console.log(sql);
+                con.query(sql, [], function (e, rs) {
+                    if (e) {
+                        //select error
+                        res.json({
+                            'status': 'select error'
+                        });
+                    } else {
+                        //success
+                        res.json({
+                            'status': 'success',
+                            'data': rs
+                        })
+                    }
+                })
+            }
+            con.release();
+        })
+    });
 };
 module.exports = router;
