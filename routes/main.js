@@ -154,7 +154,7 @@ router = function (app, pool) {
                         });
                     } else {
                         //success
-                        con.query("UPDATE `students` SET `umbrella` = ? WHERE `students`.`idx` = ?;", [parseInt(req.body.umbrella + 1), req.body.idx], function (e, rs) {
+                        con.query("UPDATE `students` SET `umbrella` = ? WHERE `students`.`idx` = ?;", [(parseInt(req.body.umbrella) + 1), req.body.idx], function (e, rs) {
                             if (e) {
                                 //update error
                                 res.json({
