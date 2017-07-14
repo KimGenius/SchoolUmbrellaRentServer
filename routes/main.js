@@ -105,7 +105,6 @@ router = function (app, pool) {
         })
     });
     app.post('/getStudent', function (req, res) {
-        console.log(req.body);
         pool.getConnection(function (e, con) {
             if (e) {
                 //connection error
@@ -133,7 +132,43 @@ router = function (app, pool) {
                             'status': 'empty'
                         })
                     }
-                })
+                });
+                con.release();
+            }
+        })
+    });
+    app.post('/addRent', function (req, res) {
+        console.log(req.body);
+        pool.getConnection(function (e, con) {
+            if (e) {
+                //connection error
+                res.json({
+                    'status': 'connection error'
+                });
+            } else {
+                con.query("INSERT INTO `rents` (`sdx`, `date`) VALUES (?, ?);", [req.body.idx, req.body.date], function (e, rs) {
+                    if (e) {
+                        //insert error
+                        res.json({
+                            'status': 'insert error'
+                        });
+                    } else {
+                        //success
+                        con.query("UPDATE `students` SET `umbrella` = ? WHERE `students`.`idx` = ?;", [parseInt(req.body.umbrella + 1), req.body.idx], function (e, rs) {
+                            if (e) {
+                                //update error
+                                res.json({
+                                    'status': 'update error'
+                                })
+                            } else {
+                                //success
+                                res.json({
+                                    'status': 'success'
+                                })
+                            }
+                        })
+                    }
+                });
                 con.release();
             }
         })
