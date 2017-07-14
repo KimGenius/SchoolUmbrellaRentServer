@@ -13,9 +13,22 @@
 <body>
 <input type="file" class="getExcel">
 <p class="data"></p>
+<button class="rentClear">대여목록 초기화</button>
 <script>
     var result = [];
-
+    $('.rentClear').click(function () {
+        $.ajax({
+            url: '/rentClear',
+            type: 'get',
+            success: function (data) {
+                if (data.status === "success") {
+                    alert(data.message);
+                } else {
+                    alert("초기화 실패");
+                }
+            }
+        })
+    });
     $.ajax({
         url: '/getStudentList',
         type: 'post',

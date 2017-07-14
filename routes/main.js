@@ -44,7 +44,7 @@ router = function (app, pool) {
 
         pool.getConnection(function (e, con) {
             if (!e) {
-                con.query("TRUNCATE TABLE `students` ;", [], function (e, rs) {
+                con.query("TRUNCATE TABLE `students`;", [], function (e, rs) {
                     if (!e) {
                         con.query(query_str.substring(0, query_str.length - 1), [], function (e, rs) {
                             if (e) {
@@ -173,5 +173,29 @@ router = function (app, pool) {
             }
         })
     });
+    app.get('/rentClear', function (req, res) {
+        pool.getConnection(function (e, con) {
+            if (e) {
+                res.json({
+                    //connection error
+                    'status': 'connection error'
+                })
+            } else {
+                con.query("TRUNCATE `rents`", [], function (e, rs) {
+                    if (e) {
+                        //TRUNCATE error
+                        res.json({
+                            'status': 'TRUNCATE ERROR'
+                        })
+                    } else {
+                        res.json({
+                            'status': 'success',
+                            'message': "성공적으로 대여목록이 초기화되었습니다!"
+                        })
+                    }
+                })
+            }
+        })
+    })
 };
 module.exports = router;
