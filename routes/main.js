@@ -104,7 +104,7 @@ router = function (app, pool) {
             }
         })
     });
-    app.post('/findStudent', function (req, res) {
+    app.post('/findStudents', function (req, res) {
         pool.getConnection(function (e, con) {
             if (e) {
                 //connection error
