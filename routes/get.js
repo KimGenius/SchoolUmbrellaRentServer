@@ -4,7 +4,6 @@
 'use strict';
 let router;
 router = function (app, pool) {
-
     app.get('/', function (req, res) {
         res.render('index.html');
     });
@@ -201,25 +200,34 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                console.log(req.query.studentNum);
-                con.query("SELECT * FROM `students` as `s` INNER JOIN `rents` as `r` ON `s`.`idx` = `r`.`sdx` WHERE `s`.`umbrella` > 0 AND `s`.`num` = ? ORDER BY `s`.`umbrella` desc, `s`.`num` asc, `r`.`idx` desc LIMIT 1;", [req.query.studentNum], function (e, rs) {
-                    let response = rs;
-                    console.log(response);
+                con.query("UPDATE `umbrellas` SET `status` = 0 WHERE `idx` = ?", [req.query.umdx], function (e, rs) {
                     if (e) {
-                        //select error
+                        //update error
                         res.json({
-                            'status': 'select error'
+                            'status': 'update error'
                         });
                     } else {
-                        con.query("DELETE FROM `rents` WHERE `idx` = ?", [response[0].idx], function (e, rs) {
+                        con.query("SELECT `umdx` FROM `students` WHERE `student_num` = ?", [req.query.studentNum], function (e, rs) {
                             if (e) {
-                                //delete error
+                                //select umdx error
                                 res.json({
-                                    'status': 'delete error'
+                                    'status': 'select umdx error'
                                 });
                             } else {
-                                let umbrella = parseInt(response[0].umbrella) - 1;
-                                con.query("UPDATE `students` SET `umbrella` = ? WHERE `idx` = ?", [umbrella, response[0].sdx], function (e, rs) {
+                                let student_umbrellas = rs[0].umdx;
+                                let remove_umbrella = req.query.umdx;
+                                let umb = student_umbrellas.split("");
+                                for (let i = 0; i < umb.length; i++) {
+                                    if (remove_umbrella === umb[i]) {
+                                        umb.splice(i - 2, 3);
+                                        break;
+                                    }
+                                }
+                                let result_umbrellas = "";
+                                for (let i = 0; i < umb.length; i++) {
+                                    result_umbrellas += umb[i];
+                                }
+                                con.query("UPDATE `students` SET `umdx` = ? WHERE `student_num` = ?", [result_umbrellas, req.query.studentNum], function (e, rs) {
                                     if (e) {
                                         //update error
                                         res.json({
@@ -231,11 +239,11 @@ router = function (app, pool) {
                                             'status': 'success'
                                         });
                                     }
-                                });
+                                })
                             }
                         })
                     }
-                })
+                });
             }
             con.release();
         })
