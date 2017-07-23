@@ -132,7 +132,7 @@ router = function (app, pool) {
             }
             con.release();
         })
-    })
+    });
     app.get('/sortStudents', function (req, res) {
         pool.getConnection(function (e, con) {
             if (e) {

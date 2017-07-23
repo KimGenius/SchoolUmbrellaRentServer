@@ -114,6 +114,5 @@ router = function (app, pool) {
             con.release();
         })
     });
-
 };
 module.exports = router;
