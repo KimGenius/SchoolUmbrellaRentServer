@@ -78,7 +78,6 @@ router = function (app, pool) {
             con.release();
         });
     });
-
     app.post('/addRent', function (req, res) {
         console.log(req.body);
         pool.getConnection(function (e, con) {

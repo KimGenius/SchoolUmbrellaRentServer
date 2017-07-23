@@ -65,29 +65,6 @@ router = function (app, pool) {
             }
         })
     });
-    app.get('/getUmbrellas', function (req, res) {
-        pool.getConnection(function (e, con) {
-            if (e) {
-                res.json({
-                    'status': 'connection error'
-                })
-            } else {
-                con.query("SELECT * FROM `umbrellas`", [], function (e, rs) {
-                    if (e) {
-                        res.json({
-                            'status': 'select error'
-                        })
-                    } else {
-                        res.json({
-                            'status': 'success',
-                            'data': rs
-                        })
-                    }
-                });
-            }
-            con.release();
-        })
-    });
     app.get('/getStudent', function (req, res) {
         pool.getConnection(function (e, con) {
             if (e) {
@@ -130,14 +107,14 @@ router = function (app, pool) {
                     'status': 'connection error'
                 })
             } else {
-                con.query("TRUNCATE `rents`", [], function (e, rs) {
+                con.query("UPDATE `umbrellas` SET `status` = 0", [], function (e, rs) {
                     if (e) {
                         //TRUNCATE error
                         res.json({
                             'status': 'TRUNCATE ERROR'
                         })
                     } else {
-                        con.query("UPDATE `students` SET `umbrella` = 0, `date` = ''", [], function (e, rs) {
+                        con.query("UPDATE `students` SET `umdx` = 0, `date` = ''", [], function (e, rs) {
                             if (e) {
                                 //UPDATE ERROR
                                 res.json({
