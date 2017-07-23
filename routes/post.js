@@ -87,29 +87,53 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query("UPDATE `umbrellas` SET `status` = 1 WHERE `idx` = ?", [req.body.umdx], function (e, rs) {
+                con.query("SELECT * FROM `umbrellas` WHERE `idx` = ?", [req.body.umdx], function (e, rs) {
                     if (e) {
-                        //umbrella update error
+                        //umbrella select error
                         res.json({
-                            'status': 'umbrella update error'
+                            'status': 'umbrella select error'
                         });
                     } else {
-                        //success
-                        con.query("UPDATE `students` SET `umdx` = ?, `date` = ? WHERE `students`.`idx` = ?;", [req.body.studentUmdx, req.body.date, req.body.idx], function (e, rs) {
-                            if (e) {
-                                //students update error
-                                res.json({
-                                    'status': 'students update error'
-                                })
+                        if (rs[0]) {
+                            if (rs[0].status === 0) {
+                                con.query("UPDATE `umbrellas` SET `status` = 1 WHERE `idx` = ?", [req.body.umdx], function (e, rs) {
+                                    if (e) {
+                                        //umbrella update error
+                                        res.json({
+                                            'status': 'umbrella update error'
+                                        });
+                                    } else {
+                                        //success
+                                        con.query("UPDATE `students` SET `umdx` = ?, `date` = ? WHERE `students`.`idx` = ?;", [req.body.studentUmdx, req.body.date, req.body.idx], function (e, rs) {
+                                            if (e) {
+                                                //students update error
+                                                res.json({
+                                                    'status': 'students update error'
+                                                })
+                                            } else {
+                                                //success
+                                                res.json({
+                                                    'status': 'success'
+                                                })
+                                            }
+                                        })
+                                    }
+                                });
                             } else {
-                                //success
+                                //umbrella rent error
                                 res.json({
-                                    'status': 'success'
-                                })
+                                    'status': 'already umbrella'
+                                });
                             }
-                        })
+                        } else {
+                            //umbrella select error
+                            res.json({
+                                'status': 'umbrella not found'
+                            });
+                        }
                     }
                 });
+
             }
             con.release();
         })
