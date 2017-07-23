@@ -88,19 +88,19 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query("UPDATE `umbrellas` SET `status` = 1 `date` = ? WHERE `idx` = ?", [req.body.date, req.body.umdx], function (e, rs) {
+                con.query("UPDATE `umbrellas` SET `status` = 1 WHERE `idx` = ?", [req.body.umdx], function (e, rs) {
                     if (e) {
-                        //insert error
+                        //umbrella update error
                         res.json({
-                            'status': 'insert error'
+                            'status': 'umbrella update error'
                         });
                     } else {
                         //success
-                        con.query("UPDATE `students` SET `umdx` = ? WHERE `students`.`idx` = ?;", [, req.body.date, req.body.udx], function (e, rs) {
+                        con.query("UPDATE `students` SET `umdx` = ?, `date` = ? WHERE `students`.`idx` = ?;", [req.body.studentUmdx, req.body.date, req.body.idx], function (e, rs) {
                             if (e) {
-                                //update error
+                                //students update error
                                 res.json({
-                                    'status': 'update error'
+                                    'status': 'students update error'
                                 })
                             } else {
                                 //success
