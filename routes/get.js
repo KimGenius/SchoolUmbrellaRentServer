@@ -174,7 +174,7 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query("SELECT * FROM `students` WHERE `umbrella` > 0 ORDER BY `umbrella` desc, `num` asc;", [], function (e, rs) {
+                con.query(" SELECT * FROM `students` as `s` INNER JOIN `rents` as `r` ON `r`.`sdx` = `s`.`idx` ORDER BY `umbrella` desc, `num` asc", [], function (e, rs) {
                     if (e) {
                         //select error
                         res.json({

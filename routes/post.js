@@ -35,7 +35,7 @@ router = function (app, pool) {
         let name = "";
         let bun = "";
         data = data.substring(1, data.length - 1);
-        let query_str = "INSERT INTO `students`(`name`,`num`,`umbrella`) VALUES";
+        let query_str = "INSERT INTO `students`(`name`,`num`,`umdx`) VALUES";
         data.split(',').forEach(function (value, index) {
             if (index % 2 === 0) {
                 name = value.substring(2, value.length - 1);
@@ -88,7 +88,7 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query("INSERT INTO `rents` (`sdx`, `date`) VALUES (?, ?);", [req.body.idx, req.body.date], function (e, rs) {
+                con.query("UPDATE `umbrellas` SET `status` = 1 `date` = ? WHERE `idx` = ?", [req.body.date, req.body.umdx], function (e, rs) {
                     if (e) {
                         //insert error
                         res.json({
@@ -96,7 +96,7 @@ router = function (app, pool) {
                         });
                     } else {
                         //success
-                        con.query("UPDATE `students` SET `umbrella` = ?, `date` = ? WHERE `students`.`idx` = ?;", [(parseInt(req.body.umbrella) + 1), req.body.date, req.body.idx], function (e, rs) {
+                        con.query("UPDATE `students` SET `umdx` = ? WHERE `students`.`idx` = ?;", [, req.body.date, req.body.udx], function (e, rs) {
                             if (e) {
                                 //update error
                                 res.json({
