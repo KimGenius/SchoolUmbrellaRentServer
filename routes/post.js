@@ -35,7 +35,7 @@ router = function (app, pool) {
         let name = "";
         let bun = "";
         data = data.substring(1, data.length - 1);
-        let query_str = "INSERT INTO `students`(`name`,`num`,`umdx`) VALUES";
+        let query_str = "INSERT INTO `students`(`name`,`student_num`,`umdx`) VALUES";
         data.split(',').forEach(function (value, index) {
             if (index % 2 === 0) {
                 name = value.substring(2, value.length - 1);
@@ -53,7 +53,7 @@ router = function (app, pool) {
                             if (e) {
                                 //insert error
                                 res.json({
-                                    'status': "insert error"
+                                    'status': "insert error<br/>" + query_str.substring(0, query_str.length - 1)
                                 });
                             } else {
                                 //success
