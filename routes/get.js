@@ -2,7 +2,7 @@
  * Created by young on 2017-07-17.
  */
 'use strict';
-var router;
+let router;
 router = function (app, pool) {
 
     app.get('/', function (req, res) {
@@ -107,7 +107,7 @@ router = function (app, pool) {
                     'status': 'connection error'
                 })
             } else {
-                con.query("UPDATE `umbrellas` SET `status` = 0", [], function (e, rs) {
+                con.query("UPDATE `umbrellas` SET `status` = 0, `udx` = 0", [], function (e, rs) {
                     if (e) {
                         //TRUNCATE error
                         res.json({
@@ -175,7 +175,7 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query(" SELECT * FROM `students` as `s` INNER JOIN `rents` as `r` ON `r`.`sdx` = `s`.`idx` ORDER BY `umbrella` desc, `num` asc", [], function (e, rs) {
+                con.query("SELECT `u`.`date`, `u`.`idx` as `udx`, `s`.`idx` as `sdx`, `s`.`name`, `s`.`student_num` FROM `umbrellas` as `u` INNER JOIN `students` as `s` ON `u`.`udx` = `s`.`idx` WHERE `status` <> 0;", [], function (e, rs) {
                     if (e) {
                         //select error
                         res.json({

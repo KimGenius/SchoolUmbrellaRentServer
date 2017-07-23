@@ -96,7 +96,7 @@ router = function (app, pool) {
                     } else {
                         if (rs[0]) {
                             if (rs[0].status === 0) {
-                                con.query("UPDATE `umbrellas` SET `status` = 1 WHERE `idx` = ?", [req.body.umdx], function (e, rs) {
+                                con.query("UPDATE `umbrellas` SET `status` = 1, `udx` = ?, `date` = ? WHERE `idx` = ?", [req.body.idx, req.body.date, req.body.umdx], function (e, rs) {
                                     if (e) {
                                         //umbrella update error
                                         res.json({
