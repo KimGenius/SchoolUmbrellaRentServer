@@ -16,7 +16,7 @@ router = function (app, pool) {
                     'status': 'connection error'
                 });
             } else {
-                con.query("SELECT * FROM `students` ORDER BY `umbrella` desc, `num` asc;", [], function (e, rs) {
+                con.query("SELECT * FROM `students` ORDER BY `umdx` desc, `student_num` asc;", [], function (e, rs) {
                     if (e) {
                         //select error
                         res.json({

@@ -29,7 +29,7 @@ router = function (app, pool) {
             }
             con.release();
         })
-    })
+    });
     app.post('/addStudentList', function (req, res) {
         let data = req.body.asdf;
         let name = "";
