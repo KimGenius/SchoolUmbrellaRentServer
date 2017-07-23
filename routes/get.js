@@ -144,9 +144,9 @@ router = function (app, pool) {
                 let type = req.query.type;
                 let sql = "";
                 if (type === "num") {
-                    sql = "SELECT * FROM `students` ORDER BY `num` " + req.query.gradeSc + ", `umbrella` " + req.query.rentSc + ";"
+                    sql = "SELECT * FROM `students` ORDER BY `student_num` " + req.query.gradeSc + ", `umdx` " + req.query.rentSc + ";"
                 } else if (type === "umbrella") {
-                    sql = "SELECT * FROM `students` ORDER BY `umbrella` " + req.query.rentSc + ", `num` " + req.query.gradeSc + ";"
+                    sql = "SELECT * FROM `students` ORDER BY `umdx` " + req.query.rentSc + ", `student_num` " + req.query.gradeSc + ";"
                 }
                 console.log(sql);
                 con.query(sql, [], function (e, rs) {
