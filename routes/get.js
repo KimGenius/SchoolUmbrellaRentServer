@@ -248,5 +248,31 @@ router = function (app, pool) {
             con.release();
         })
     });
+    app.get('/getUmbrellas', function (req, res) {
+        pool.getConnection(function(e,con) {
+            if (e) {
+                //connection error
+                res.json({
+                    'status': 'connection error'
+                });
+            } else {
+                con.query("SELECT * FROM `umbrellas`", [], function (e, rs) {
+                    if (e) {
+                        //select error
+                        res.json({
+                            'status': 'select error'
+                        });
+                    } else {
+                        //success
+                        res.json({
+                            'status': 'success',
+                            'data': rs
+                        })
+                    }
+                });
+                con.release();
+            }
+        })
+    })
 };
 module.exports = router;
