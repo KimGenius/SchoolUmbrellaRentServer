@@ -264,6 +264,7 @@ router = function (app, pool) {
                         });
                     } else {
                         //success
+                        console.log(rs);
                         res.json({
                             'status': 'success',
                             'data': rs
